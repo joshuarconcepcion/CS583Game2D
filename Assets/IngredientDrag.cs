@@ -7,6 +7,7 @@ public class IngredientDrag : MonoBehaviour
 {
     public GameObject fridgeUI;
     public TrashCan trashCan;
+    public HotPot hotPot; // Reference to the HotPot script
     public GameObject ingredientPrefab;
     public Canvas canvas;
     private bool isDragging = false;
@@ -21,7 +22,10 @@ public class IngredientDrag : MonoBehaviour
 
     void OnMouseDown()
     {
-        StartDragging();
+        if (!isDragging)
+        {
+            StartDragging();
+        }
     }
 
     void Update()
@@ -33,6 +37,7 @@ public class IngredientDrag : MonoBehaviour
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, mousePosition, canvas.worldCamera, out worldPoint);
             rectTransform.localPosition = worldPoint;
             trashCan.currentIngredient = gameObject;
+            hotPot.currentIngredient = gameObject; // Also set the current ingredient for the hot pot
         }
     }
 
@@ -43,6 +48,7 @@ public class IngredientDrag : MonoBehaviour
         IngredientDrag ingredientDragScript = newIngredient.GetComponent<IngredientDrag>();
         ingredientDragScript.fridgeUI = fridgeUI;
         ingredientDragScript.trashCan = trashCan;
+        ingredientDragScript.hotPot = hotPot; // Assign the hot pot reference
         ingredientDragScript.canvas = canvas;
         ingredientDragScript.isDragging = true;
 
@@ -57,9 +63,10 @@ public class IngredientDrag : MonoBehaviour
         newIngredientImage.raycastTarget = false;
     }
 
-    public void StopDragging()
+    public void Discard()
     {
-        isDragging = false;
-        trashCan.currentIngredient = null;
+        Destroy(gameObject); // Destroy the ingredient in hand
+        trashCan.currentIngredient = null; // Clear the reference in TrashCan
+        hotPot.currentIngredient = null; // Clear the reference in HotPot
     }
 }

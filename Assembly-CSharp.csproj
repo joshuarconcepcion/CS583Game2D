@@ -67,6 +67,8 @@
     <Compile Include="Assets/IngredientDrag.cs" />
     <Compile Include="Assets/ViewSwitcher.cs" />
     <Compile Include="Assets/FridgeInteraction.cs" />
+    <Compile Include="Assets/Ingredient.cs" />
+    <Compile Include="Assets/HotPot.cs" />
     <Compile Include="Assets/TrashCan.cs" />
   </ItemGroup>
   <ItemGroup>

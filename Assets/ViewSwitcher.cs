@@ -11,20 +11,21 @@ public class ViewSwitcher : MonoBehaviour
 
     public void ToggleView()
     {
+        fridgeUI.SetActive(false); // Hide the fridge UI when switching views
 
-        fridgeUI.SetActive(false);
-        
         if (inKitchen)
         {
-            kitchenView.SetActive(false);    
-            diningRoomView.SetActive(true);   
+            kitchenView.SetActive(false); // Hide the kitchen view
+            diningRoomView.SetActive(true); // Show the dining room view
+            kitchenView.transform.Find("trashCan").gameObject.SetActive(false); // Hide the trash can
         }
         else
         {
-            kitchenView.SetActive(true);       
-            diningRoomView.SetActive(false);   
+            kitchenView.SetActive(true); // Show the kitchen view
+            diningRoomView.SetActive(false); // Hide the dining room view
+            kitchenView.transform.Find("trashCan").gameObject.SetActive(true); // Show the trash can
         }
 
-        inKitchen = !inKitchen;
+        inKitchen = !inKitchen; // Toggle the view state
     }
 }
