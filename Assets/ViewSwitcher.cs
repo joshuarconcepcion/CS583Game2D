@@ -4,28 +4,82 @@ using UnityEngine;
 
 public class ViewSwitcher : MonoBehaviour
 {
-    public GameObject kitchenView;   
-    public GameObject diningRoomView;  
-    public GameObject fridgeUI;    
-    private bool inKitchen = true;     
+    public GameObject kitchenView;
+    public GameObject diningRoomView;
+    public GameObject fridgeUI;
+    public GameObject finishOrderButton;
 
-    public void ToggleView()
+    public bool inKitchen = true;
+    private OrderSpawner orderSpawner;
+    private AudioSource audioSource; //sound effect when switch view button is clicked
+    public AudioSource diningRoomAudioSource; //ambient chatting in dining room
+
+    void Start()
     {
-        fridgeUI.SetActive(false); // Hide the fridge UI when switching views
+        orderSpawner = FindObjectOfType<OrderSpawner>();
+        audioSource = GetComponent<AudioSource>(); 
 
-        if (inKitchen)
+        
+        if (!inKitchen && diningRoomAudioSource != null) //if not in kitchen, play dining room audio
         {
-            kitchenView.SetActive(false); // Hide the kitchen view
-            diningRoomView.SetActive(true); // Show the dining room view
-            kitchenView.transform.Find("trashCan").gameObject.SetActive(false); // Hide the trash can
+            diningRoomAudioSource.Stop();
+        }
+
+        if (!inKitchen)
+        {
+            finishOrderButton.SetActive(false); //if not in kitchen, finish order button is not visible
+            SetOrderVisibilityInDiningRoom(true); 
         }
         else
         {
-            kitchenView.SetActive(true); // Show the kitchen view
-            diningRoomView.SetActive(false); // Hide the dining room view
-            kitchenView.transform.Find("trashCan").gameObject.SetActive(true); // Show the trash can
+            SetOrderVisibilityInDiningRoom(false); //i had trouble hiding the order in dining room when in kitchen, so i just make it invisible altogether if not in the dining room
+        }
+    }
+
+    public void ToggleView()
+    {
+        if (audioSource != null)
+        {
+            audioSource.Play();
         }
 
-        inKitchen = !inKitchen; // Toggle the view state
+        fridgeUI.SetActive(false); //hide fridge UI automatically when switching view
+
+        if (inKitchen)
+        {
+            kitchenView.SetActive(false);
+            diningRoomView.SetActive(true);
+            finishOrderButton.SetActive(false);
+
+            SetOrderVisibilityInDiningRoom(true); //show customer order in dining room
+
+            if (diningRoomAudioSource != null && !diningRoomAudioSource.isPlaying)
+            {
+                diningRoomAudioSource.Play();
+            }
+        }
+        else
+        {
+            kitchenView.SetActive(true);
+            diningRoomView.SetActive(false);
+            finishOrderButton.SetActive(true);
+
+            SetOrderVisibilityInDiningRoom(false);
+
+            if (diningRoomAudioSource != null && diningRoomAudioSource.isPlaying)
+            {
+                diningRoomAudioSource.Stop();
+            }
+        }
+
+        inKitchen = !inKitchen;
+    }
+
+    private void SetOrderVisibilityInDiningRoom(bool visible) //show customer order in dining room
+    {
+        if (orderSpawner != null)
+        {
+            orderSpawner.SetOrderVisibility(visible);
+        }
     }
 }

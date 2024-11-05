@@ -65,10 +65,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets/IngredientDrag.cs" />
+    <Compile Include="Assets/ScoreManager.cs" />
+    <Compile Include="Assets/CustomerSpawner.cs" />
+    <Compile Include="Assets/OrderSpawner.cs" />
+    <Compile Include="Assets/CupboardInteraction.cs" />
     <Compile Include="Assets/ViewSwitcher.cs" />
     <Compile Include="Assets/FridgeInteraction.cs" />
     <Compile Include="Assets/Ingredient.cs" />
     <Compile Include="Assets/HotPot.cs" />
+    <Compile Include="Assets/SendOrderButton.cs" />
+    <Compile Include="Assets/HotPotOrderManager.cs" />
+    <Compile Include="Assets/Customer.cs" />
+    <Compile Include="Assets/Cupboard Ingredient.cs" />
+    <Compile Include="Assets/CompletedHotPot.cs" />
     <Compile Include="Assets/TrashCan.cs" />
   </ItemGroup>
   <ItemGroup>
